@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Safety Airbags | Airbags, Seat Belts & SRS Services Houston</title>
+
+  <meta name="description" content="Safety Airbags in Houston, Texas. Airbags, seat belts, SRS module repair and programming, dashboards, upholstery, seats, headliners and automotive interior repair.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #08111f;
+      color: white;
+      padding: 16px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: #f4b400;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hero {
+      min-height: 540px;
+      background:
+        linear-gradient(rgba(4,10,20,.82), rgba(4,10,20,.82)),
+        linear-gradient(135deg, #172033, #050912);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 70px 6%;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #f4b400;
+      color: #111;
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .98;
+      margin-bottom: 20px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: #f4b400;
+    }
+
+    .hero p {
+      font-size: 19px;
+      max-width: 680px;
+      color: #d7dde7;
+      margin-bottom: 28px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 7px;
+      padding: 14px 21px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn-yellow {
+      background: #f4b400;
+      color: #111;
+    }
+
+    .btn-outline {
+      border: 2px solid white;
+      color: white;
+      background: transparent;
+    }
+
+    section {
+      padding: 65px 6%;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto 35px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(30px, 5vw, 44px);
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #667085;
+    }
+
+    .search-section {
+      background: white;
+    }
+
+    .vehicle-search {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px;
+      background: #0b1423;
+      border-radius: 15px;
+      color: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+    }
+
+    .vehicle-search h3 {
+      font-size: 26px;
+      margin-bottom: 7px;
+    }
+
+    .vehicle-search > p {
+      color: #b8c1ce;
+      margin-bottom: 22px;
+    }
+
+    .selectors {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 7px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .search-btn {
+      width: 100%;
+      background: #f4b400;
+      color: #111;
+      border: none;
+      border-radius: 7px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 900;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+
+    #vehicleResult {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .services {
+      background: #f4f6f8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      border-top: 4px solid #f4b400;
+    }
+
+    .card .icon {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 9px;
+      font-size: 21px;
+    }
+
+    .card p {
+      color: #667085;
+    }
+
+    .parts {
+      background: #0b1423;
+      color: white;
+    }
+
+    .parts .section-title p {
+      color: #b8c1ce;
+    }
+
+    .parts-grid {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .part {
+      background: #131f31;
+      border: 1px solid #26354b;
+      padding: 25px 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .why {
+      background: white;
+    }
+
+    .why-grid {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      gap: 25px;
+    }
+
+    .why-box strong {
+      display: block;
+      font-size: 26px;
+      color: #b88400;
+      margin-bottom: 5px;
+    }
+
+    .cta {
+      background: #f4b400;
+      text-align: center;
+      color: #111;
+    }
+
+    .cta h2 {
+      font-size: clamp(30px, 5vw, 45px);
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      max-width: 700px;
+      margin: 0 auto 22px;
+      font-size: 18px;
+    }
+
+    .cta .btn {
+      background: #08111f;
+      color: white;
+    }
+
+    footer {
+      background: #050912;
+      color: #aeb7c5;
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    @media (max-width: 850px) {
+      nav {
+        display: none;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .parts-grid,
+      .why-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .selectors {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        min-height: 500px;
+        padding: 55px 24px;
+      }
+
+      section {
+        padding: 50px 22px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .parts-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .vehicle-search {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SAFETY <span>AIRBAGS</span></div>
+
+  <nav>
+    <a href="#vehicle">Find Parts</a>
+    <a href="#services">Services</a>
+    <a href="#parts">Parts</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+
+<section class="hero">
+  <div class="hero-content">
+
+    <div class="badge">HOUSTON, TEXAS • MOBILE & IN-SHOP SERVICE</div>
+
+    <h1>
+      AIRBAG & SRS<br>
+      <span>SPECIALISTS</span>
+    </h1>
+
+    <p>
+      Airbags, seat belts, SRS modules, dashboards, seats,
+      upholstery, headliners and complete automotive interior
+      repair. Parts, programming, repair and installation.
+    </p>
+
+    <div class="buttons">
+      <a class="btn btn-yellow" href="#vehicle">FIND YOUR VEHICLE</a>
+      <a class="btn btn-outline" href="#services">VIEW SERVICES</a>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="search-section" id="vehicle">
+
+  <div class="section-title">
+    <h2>Find Parts For Your Vehicle</h2>
+    <p>
+      Select your year, make and model. We are building our complete
+      airbag and SRS inventory database.
+    </p>
+  </div>
+
+  <div class="vehicle-search">
+
+    <h3>Vehicle Search</h3>
+
+    <p>
+      Search airbags, seat belts, modules, dashboards and other SRS components.
+    </p>
+
+    <div class="selectors">
+
+      <select id="year">
+        <option value="">Select Year</option>
+      </select>
+
+      <select id="make">
+        <option value="">Select Make</option>
+        <option>Acura</option>
+        <option>Audi</option>
+        <option>BMW</option>
+        <option>Buick</option>
+        <option>Cadillac</option>
+        <option>Chevrolet</option>
+        <option>Chrysler</option>
+        <option>Dodge</option>
+        <option>Ford</option>
+        <option>Genesis</option>
+        <option>GMC</option>
+        <option>Honda</option>
+        <option>Hyundai</option>
+        <option>Infiniti</option>
+        <option>Jeep</option>
+        <option>Kia</option>
+        <option>Lexus</option>
+        <option>Lincoln</option>
+        <option>Mazda</option>
+        <option>Mercedes-Benz</option>
+        <option>Mitsubishi</option>
+        <option>Nissan</option>
+        <option>Ram</option>
+        <option>Subaru</option>
+        <option>Tesla</option>
+        <option>Toyota</option>
+        <option>Volkswagen</option>
+        <option>Volvo</option>
+      </select>
+
+      <select id="model">
+        <option value="">Select Model</option>
+        <option value="">Choose Make First</option>
+      </select>
+
+    </div>
+
+    <button class="search-btn" onclick="searchVehicle()">
+      SEARCH PARTS
+    </button>
+
+    <div id="vehicleResult"></div>
+
+  </div>
+</section>
+
+
+<section class="services" id="services">
+
+  <div class="section-title">
+    <h2>What We Do</h2>
+    <p>
+      Complete SRS safety-system and automotive interior services.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="icon">🛡️</div>
+      <h3>Airbags</h3>
+      <p>
+        Driver, passenger, knee, seat and curtain airbag replacement
+        and installation.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🔧</div>
+      <h3>Seat Belts</h3>
+      <p>
+        Seat-belt replacement, repair and pretensioner services.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💻</div>
+      <h3>SRS Modules</h3>
+      <p>
+        Airbag module crash-data reset, repair, programming and
+        diagnostic services.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🚘</div>
+      <h3>Dashboards</h3>
+      <p>
+        Deployed, cracked and damaged dashboard replacement and
+        restoration.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🪑</div>
+      <h3>Seats & Upholstery</h3>
+      <p>
+        Automotive seat repair, upholstery, leather and interior
+        restoration.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🧵</div>
+      <h3>Headliners</h3>
+      <p>
+        Sagging and damaged headliner replacement and interior trim
+        repair.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">⚙️</div>
+      <h3>SRS Programming</h3>
+      <p>
+        SRS diagnostics, programming, calibration, sensors and
+        component services.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📦</div>
+      <h3>Parts Sales</h3>
+      <p>
+        Airbags, seat belts, SRS modules, sensors and related
+        automotive safety components.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🚐</div>
+      <h3>Mobile & Shop Service</h3>
+      <p>
+        Bring your vehicle to us or contact us about available mobile
+        service.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="parts" id="parts">
+
+  <div class="section-title">
+    <h2>Airbag & SRS Parts</h2>
+    <p>
+      Find the safety-system components you need for your vehicle.
+    </p>
+  </div>
+
+  <div class="parts-grid">
+
+    <div class="part">Driver Airbags</div>
+    <div class="part">Passenger Airbags</div>
+    <div class="part">Knee Airbags</div>
+    <div class="part">Curtain Airbags</div>
+
+    <div class="part">Seat Airbags</div>
+    <div class="part">Seat Belts</div>
+    <div class="part">SRS Modules</div>
+    <div class="part">SRS Sensors</div>
+
+    <div class="part">Dashboards</div>
+    <div class="part">Seats</div>
+    <div class="part">Interior Parts</div>
+    <div class="part">SRS Components</div>
+
+  </div>
+</section>
+
+
+<section class="why">
+
+  <div class="section-title">
+    <h2>Why Safety Airbags?</h2>
+  </div>
+
+  <div class="why-grid">
+
+    <div class="why-box">
+      <strong>1999</strong>
+      Family Owned & Operated
+    </div>
+
+    <div class="why-box">
+      <strong>SRS</strong>
+      Specialized Service
+    </div>
+
+    <div class="why-box">
+      <strong>PARTS</strong>
+      Sales & Replacement
+    </div>
+
+    <div class="why-box">
+      <strong>HOUSTON</strong>
+      Local Service
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="cta" id="contact">
+
+  <h2>Need Airbags or SRS Service?</h2>
+
+  <p>
+    Contact Safety Airbags for parts, installation, programming,
+    seat-belt service, upholstery and automotive interior repair.
+  </p>
+
+  <a class="btn" href="mailto:Safetyairbags@yahoo.com">
+    CONTACT SAFETY AIRBAGS
+  </a>
+
+</section>
+
+
+<footer>
+
+  <p>
+    <strong>Safety Airbags</strong><br>
+    Houston, Texas
+  </p>
+
+  <br>
+
+  <p>
+    Airbags • Seat Belts • SRS Modules • Programming • Dashboards •
+    Seats • Upholstery • Headliners • Interior Repair
+  </p>
+
+  <br>
+
+  <p>Family owned and operated since 1999.</p>
+
+</footer>
+
+
+<script>
+
+  /* YEARS */
+
+  const yearSelect = document.getElementById("year");
+
+  for (let year = 2027; year >= 1990; year--) {
+
+    const option = document.createElement("option");
+
+    option.value = year;
+    option.textContent = year;
+
+    yearSelect.appendChild(option);
+
+  }
+
+
+  /* STARTER MODEL DATABASE
+     We will replace/expand this with your notebook list.
+  */
+
+  const models = {
+
+    Acura: [
+      "ILX",
+      "Integra",
+      "MDX",
+      "RDX",
+      "RLX",
+      "TL",
+      "TLX"
+    ],
+
+    BMW: [
+      "2 Series",
+      "3 Series",
+      "4 Series",
+      "5 Series",
+      "7 Series",
+      "X1",
+      "X3",
+      "X5",
+      "X7",
+      "Z4"
+    ],
+
+    Chevrolet: [
+      "Camaro",
+      "Colorado",
+      "Cruze",
+      "Equinox",
+      "Impala",
+      "Malibu",
+      "Silverado 1500",
+      "Suburban",
+      "Tahoe",
+      "Traverse"
+    ],
+
+    Chrysler: [
+      "200",
+      "300",
+      "Pacifica",
+      "Town & Country"
+    ],
+
+    Dodge: [
+      "Challenger",
+      "Charger",
+      "Durango",
+      "Journey"
+    ],
+
+    Ford: [
+      "Bronco",
+      "Edge",
+      "Escape",
+      "Expedition",
+      "Explorer",
+      "F-150",
+      "Fusion",
+      "Maverick",
+      "Mustang",
+      "Ranger"
+    ],
+
+    Honda: [
+      "Accord",
+      "Civic",
+      "CR-V",
+      "HR-V",
+      "Odyssey",
+      "Passport",
+      "Pilot",
+      "Ridgeline"
+    ],
+
+    Hyundai: [
+      "Accent",
+      "Elantra",
+      "Kona",
+      "Palisade",
+      "Santa Fe",
+      "Sonata",
+      "Tucson",
+      "Venue"
+    ],
+
+    Infiniti: [
+      "Q50",
+      "Q60",
+      "QX50",
+      "QX60",
+      "QX80"
+    ],
+
+    Jeep: [
+      "Cherokee",
+      "Compass",
+      "Gladiator",
+      "Grand Cherokee",
+      "Renegade",
+      "Wrangler"
+    ],
+
+    Kia: [
+      "Forte",
+      "K5",
+      "Optima",
+      "Rio",
+      "Sorento",
+      "Soul",
+      "Sportage",
+      "Telluride"
+    ],
+
+    Lexus: [
+      "ES",
+      "GS",
+      "GX",
+      "IS",
+      "LS",
+      "NX",
+      "RX",
+      "UX"
+    ],
+
+    Nissan: [
+      "Altima",
+      "Armada",
+      "Frontier",
+      "Maxima",
+      "Murano",
+      "Pathfinder",
+      "Rogue",
+      "Sentra",
+      "Titan",
+      "Versa"
+    ],
+
+    Ram: [
+      "1500",
+      "2500",
+      "3500"
+    ],
+
+    Toyota: [
+      "4Runner",
+      "Camry",
+      "Corolla",
+      "Highlander",
+      "Prius",
+      "RAV4",
+      "Sequoia",
+      "Sienna",
+      "Tacoma",
+      "Tundra"
+    ],
+
+    Volkswagen: [
+      "Atlas",
+      "Golf",
+      "Jetta",
+      "Passat",
+      "Taos",
+      "Tiguan"
+    ]
+
+  };
+
+
+  const makeSelect = document.getElementById("make");
+  const modelSelect = document.getElementById("model");
+
+
+  makeSelect.addEventListener("change", function() {
+
+    modelSelect.innerHTML =
+      '<option value="">Select Model</option>';
+
+    const selectedMake = this.value;
+
+    if (models[selectedMake]) {
+
+      models[selectedMake].forEach(function(model) {
+
+        const option =
+          document.createElement("option");
+
+        option.value = model;
+        option.textContent = model;
+
+        modelSelect.appendChild(option);
+
+      });
+
+    } else {
+
+      const option =
+        document.createElement("option");
+
+      option.textContent =
+        "Model list coming soon";
+
+      modelSelect.appendChild(option);
+
+    }
+
+  });
+
+
+  function searchVehicle() {
+
+    const year =
+      document.getElementById("year").value;
+
+    const make =
+      document.getElementById("make").value;
+
+    const model =
+      document.getElementById("model").value;
+
+    const result =
+      document.getElementById("vehicleResult");
+
+
+    if (!year || !make || !model) {
+
+      result.innerHTML =
+        "Please select a year, make and model.";
+
+      return;
+
+    }
+
+
+    result.innerHTML =
+      "✓ Selected Vehicle: " +
+      year + " " +
+      make + " " +
+      model +
+      "<br>Inventory listings for this vehicle are coming next.";
+
+  }
+
+</script>
+
+</body>
+</html>
