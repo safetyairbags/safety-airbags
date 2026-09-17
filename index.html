@@ -165,7 +165,18 @@ async function loadModels(){
   }
   modelSelect.disabled=true;
   modelSelect.innerHTML=`<option value="">${lang==="es"?"Cargando modelos…":"Loading models…"}</option>`;
-  const localModels=fitments.filter(r=>r.make===make).flatMap(modelTokens);
+  // Always include every model we already know from the user's fitment records,
+  // including confirmed interchange aliases such as Leaf and Kicks.
+  const localModels=fitments.filter(r=>r.make===make).flatMap(record=>{
+    const names=[...modelTokens(record)];
+    if(record.interchange){
+      record.interchange.split("/").forEach(piece=>{
+        const name=piece.trim().replace(/\s+\d{4}[–-]\d{2,4}.*$/,'').replace(/\s*\([^)]*\)\s*$/,'').trim();
+        if(name && !/^(Chevrolet|GMC|Nissan|Toyota|Honda|Ford|Lexus|Infiniti)\s*$/i.test(name)) names.push(name);
+      });
+    }
+    return names;
+  });
   try{
     const url=year>=1996
       ? `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${encodeURIComponent(make)}/modelyear/${year}?format=json`
