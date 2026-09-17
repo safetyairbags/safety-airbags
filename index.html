@@ -122,7 +122,18 @@ for(let year=2027;year>=1990;year--){
   option.value=String(year); option.textContent=String(year); yearSelect.appendChild(option);
 }
 
-const localMakes=[...new Set(fitments.map(r=>r.make))].sort((a,b)=>a.localeCompare(b));
+const localMakes=[...new Set(fitments.map(r=>r.make))];
+
+// Clean customer-facing make list based on the Autel vehicle list used in the shop.
+// Fitment makes are always preserved so existing airbag records remain searchable.
+const shopMakes=[
+  "Acura","Alfa Romeo","Aston Martin","Audi","Bentley","BMW","Bugatti","Buick","Cadillac",
+  "Chevrolet","Chrysler","Dodge","Ferrari","Fiat","Ford","Genesis","GMC","Honda","Hyundai",
+  "Infiniti","Isuzu","Jaguar","Jeep","Kia","Lamborghini","Land Rover","Lexus","Maserati","Maybach",
+  "Mazda","Mercedes-Benz","MINI","Mitsubishi","Nissan","Porsche","RAM","Saab","Scion","Smart",
+  "Subaru","Suzuki","Toyota","Volkswagen","Volvo"
+];
+const cleanMakes=[...new Set([...shopMakes,...localMakes])].sort((a,b)=>a.localeCompare(b));
 
 function addOptions(select,values){
   values.forEach(value=>{
@@ -135,19 +146,10 @@ function modelTokens(record){
 }
 
 async function loadMakes(){
-  makeSelect.disabled=true;
-  makeSelect.innerHTML=`<option value="">${lang==="es"?"Cargando marcas…":"Loading makes…"}</option>`;
-  try{
-    const types=["car","truck","multipurpose"];
-    const responses=await Promise.all(types.map(type=>fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/${encodeURIComponent(type)}?format=json`).then(r=>{if(!r.ok)throw new Error("make request failed");return r.json();})));
-    const apiMakes=responses.flatMap(data=>(data.Results||[]).map(x=>x.MakeName).filter(Boolean));
-    const makes=[...new Set([...apiMakes,...localMakes])].sort((a,b)=>a.localeCompare(b));
-    makeSelect.innerHTML=`<option value="">${lang==="es"?"Selecciona Marca":"Select Make"}</option>`;
-    addOptions(makeSelect,makes);
-  }catch(e){
-    makeSelect.innerHTML=`<option value="">${lang==="es"?"Selecciona Marca":"Select Make"}</option>`;
-    addOptions(makeSelect,localMakes);
-  }
+  // Use one clean, stable list instead of exposing NHTSA manufacturer variants
+  // such as FordEU, Volkswagen CV/LT3, NissanGTR, Mercedes-Benz LD, etc.
+  makeSelect.innerHTML=`<option value="">${lang==="es"?"Selecciona Marca":"Select Make"}</option>`;
+  addOptions(makeSelect,cleanMakes);
   makeSelect.disabled=false;
 }
 
