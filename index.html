@@ -61,7 +61,7 @@
     <p>Search airbags, seat belts, OCS, SRS modules, sensors, dashboards, door panels, headliners, seats and interior parts. Confirmed fitment is shown only when recorded.</p>
     <div class="selectors">
       <select id="year"><option value="">Select Year</option></select>
-      <select id="make"><option value="">Select Make</option></select>
+      <select id="make"><option value="">Select Make</option><option value="Acura">Acura</option><option value="Alfa Romeo">Alfa Romeo</option><option value="Aston Martin">Aston Martin</option><option value="Audi">Audi</option><option value="Bentley">Bentley</option><option value="BMW">BMW</option><option value="Bugatti">Bugatti</option><option value="Buick">Buick</option><option value="Cadillac">Cadillac</option><option value="Chevrolet">Chevrolet</option><option value="Chrysler">Chrysler</option><option value="Dodge">Dodge</option><option value="Ferrari">Ferrari</option><option value="Fiat">Fiat</option><option value="Ford">Ford</option><option value="Genesis">Genesis</option><option value="GMC">GMC</option><option value="Honda">Honda</option><option value="Hyundai">Hyundai</option><option value="Infiniti">Infiniti</option><option value="Isuzu">Isuzu</option><option value="Jaguar">Jaguar</option><option value="Jeep">Jeep</option><option value="Kia">Kia</option><option value="Lamborghini">Lamborghini</option><option value="Land Rover">Land Rover</option><option value="Lexus">Lexus</option><option value="Maserati">Maserati</option><option value="Maybach">Maybach</option><option value="Mazda">Mazda</option><option value="Mercedes-Benz">Mercedes-Benz</option><option value="MINI">MINI</option><option value="Mitsubishi">Mitsubishi</option><option value="Nissan">Nissan</option><option value="Porsche">Porsche</option><option value="RAM">RAM</option><option value="Saab">Saab</option><option value="Scion">Scion</option><option value="Smart">Smart</option><option value="Subaru">Subaru</option><option value="Suzuki">Suzuki</option><option value="Toyota">Toyota</option><option value="Volkswagen">Volkswagen</option><option value="Volvo">Volvo</option></select>
       <select id="model" disabled><option value="">Choose Make First</option></select>
       <select id="partType"><option value="all">All Inventory Parts</option><option value="Driver / Steering Wheel Airbag">Driver / Steering Airbag</option><option value="Passenger / Dashboard Airbag">Passenger / Dashboard Airbag</option><option value="Glove Box Airbag">Glove Box Airbag</option><option value="Driver Knee Airbag">Driver Knee Airbag</option><option value="Passenger Knee Airbag">Passenger Knee Airbag</option><option value="Left Curtain / Roof Airbag">Left Curtain / Roof Airbag</option><option value="Right Curtain / Roof Airbag">Right Curtain / Roof Airbag</option><option value="Driver Seat Airbag">Driver Seat Airbag</option><option value="Passenger Seat Airbag">Passenger Seat Airbag</option><option value="Rear Seat Airbag">Rear Seat Airbag</option><option value="Door Panel Airbag">Door Panel Airbag</option><option value="Seat Belt Airbag / Inflatable Seat Belt">Seat Belt Airbag / Inflatable Seat Belt</option><option value="Front Seat Belt / Pretensioner">Front Seat Belt / Pretensioner</option><option value="Rear Seat Belt">Rear Seat Belt</option><option value="OCS / Occupant Classification System">OCS / Occupant Classification System</option><option value="SRS Airbag Module">SRS Airbag Module</option><option value="Impact / SRS Sensor">Impact / SRS Sensor</option><option value="Dashboard">Dashboard</option><option value="Door Panel">Door Panel</option><option value="Headliner">Headliner</option><option value="Seat / Seat Part">Seat / Seat Part</option><option value="Interior Trim / Other Part">Interior Trim / Other Part</option></select>
     </div>
@@ -146,11 +146,11 @@ function modelTokens(record){
   return record.model.split("/").map(v=>v.trim()).filter(Boolean);
 }
 
-async function loadMakes(){
-  // Use one clean, stable list instead of exposing NHTSA manufacturer variants
-  // such as FordEU, Volkswagen CV/LT3, NissanGTR, Mercedes-Benz LD, etc.
-  makeSelect.innerHTML=`<option value="">${lang==="es"?"Selecciona Marca":"Select Make"}</option>`;
-  addOptions(makeSelect,cleanMakes);
+function loadMakes(){
+  // Makes are embedded directly in the HTML so they work even if an external vehicle API is unavailable.
+  const existing=new Set([...makeSelect.options].map(o=>o.value));
+  cleanMakes.forEach(value=>{if(!existing.has(value)){const option=document.createElement("option");option.value=value;option.textContent=value;makeSelect.appendChild(option);}});
+  makeSelect.options[0].text=lang==="es"?"Selecciona Marca":"Select Make";
   makeSelect.disabled=false;
 }
 
