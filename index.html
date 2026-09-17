@@ -34,13 +34,13 @@
     .why{background:#fff} .why-grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;gap:25px} .why-box strong{display:block;font-size:26px;color:#b88400;margin-bottom:5px}
     .cta{background:#f4b400;text-align:center;color:#111} .cta h2{font-size:clamp(30px,5vw,45px);margin-bottom:10px} .cta p{max-width:700px;margin:0 auto 22px;font-size:18px} .cta .btn{background:#08111f;color:#fff}
     footer{background:#050912;color:#aeb7c5;text-align:center;padding:35px 20px} footer strong{color:#fff}
-    @media(max-width:850px){nav{display:none}.grid{grid-template-columns:1fr 1fr}.parts-grid,.why-grid{grid-template-columns:1fr 1fr}.selectors{grid-template-columns:1fr}}
+    .lang-switch{display:flex;gap:6px;margin-left:auto;margin-right:18px}.lang-btn{border:1px solid #f4b400;background:transparent;color:#fff;border-radius:6px;padding:6px 9px;font-weight:900;cursor:pointer}.lang-btn.active{background:#f4b400;color:#111}@media(max-width:850px){nav{display:none}.grid{grid-template-columns:1fr 1fr}.parts-grid,.why-grid{grid-template-columns:1fr 1fr}.selectors{grid-template-columns:1fr}}
     @media(max-width:560px){.hero{min-height:500px;padding:55px 24px}section{padding:50px 22px}.grid{grid-template-columns:1fr}.parts-grid,.why-grid{grid-template-columns:1fr 1fr}.vehicle-search{padding:22px}}
   </style>
 </head>
 <body>
 <header>
-  <div class="logo">SAFETY <span>AIRBAGS</span></div>
+  <div class="logo">SAFETY <span>AIRBAGS</span></div><div class="lang-switch"><button class="lang-btn active" id="langEN" type="button">EN</button><button class="lang-btn" id="langES" type="button">ESP</button></div>
   <nav><a href="#vehicle">Find Parts</a><a href="#services">Services</a><a href="#parts">Parts</a><a href="#contact">Contact</a></nav>
 </header>
 <section class="hero"><div class="hero-content">
@@ -149,44 +149,40 @@ function matchesModel(record,selected){
   return modelTokens(record).some(token=>token===selected);
 }
 
-function statusLabel(status){
-  return status==="Notebook" ? "Recorded fitment" : "Verification required: "+status.replace(/^Needs\s+/i,"");
-}
-
-function renderCard(record,yearMatch){
-  const years=(record.from&&record.to)?`${record.from}–${record.to}`:(record.from?`${record.from} and up`:"Year not confirmed");
-  const confirmed=record.status==="Notebook" && yearMatch;
-  return `<div class="result-card">
-    <h4>${escapeHtml(record.make)} ${escapeHtml(record.model)}</h4>
-    <p><strong>Recorded years:</strong> ${escapeHtml(years)}</p>
-    ${record.interchange?`<p><strong>Interchange / also fits:</strong> ${escapeHtml(record.interchange)}</p>`:""}
-    ${record.notes?`<p><strong>Identification notes:</strong> ${escapeHtml(record.notes)}</p>`:""}
-    <span class="result-status ${confirmed?"confirmed":"verify"}">${escapeHtml(statusLabel(record.status))}</span>
-  </div>`;
-}
-
-function searchVehicle(){
-  const year=Number(yearSelect.value), make=makeSelect.value, model=modelSelect.value;
-  if(!year||!make||!model){
-    result.innerHTML='<div class="result-message">Please select a year, make and model.</div>'; return;
-  }
-  const modelRecords=fitments.filter(r=>r.make===make&&matchesModel(r,model));
-  const exact=modelRecords.filter(r=>r.from&&r.to&&year>=r.from&&year<=r.to);
-  if(exact.length){
-    result.innerHTML=`<div class="result-message"><strong>${escapeHtml(year+" "+make+" "+model)}</strong> — ${exact.length} matching fitment record${exact.length===1?"":"s"} found.</div>`+
-      exact.map(r=>renderCard(r,true)).join("");
-    return;
-  }
-  const unresolved=modelRecords.filter(r=>!r.from||!r.to);
-  if(unresolved.length){
-    result.innerHTML=`<div class="result-message"><strong>${escapeHtml(year+" "+make+" "+model)}</strong> — we have a record for this model, but the year/variant still needs verification.</div>`+
-      unresolved.map(r=>renderCard(r,false)).join("");
-    return;
-  }
-  result.innerHTML=`<div class="result-message"><strong>No recorded fitment found</strong> for ${escapeHtml(year+" "+make+" "+model)} in the current database. This does not confirm incompatibility; verify the part before purchase or installation.</div>`;
-}
-
-document.getElementById("searchButton").addEventListener("click",searchVehicle);
+let lang="en";
+const staticTranslations={
+"Find Parts":"Buscar Partes","Services":"Servicios","Parts":"Partes","Contact":"Contacto",
+"HOUSTON, TEXAS • MOBILE & IN-SHOP SERVICE":"HOUSTON, TEXAS • SERVICIO MÓVIL Y EN TALLER",
+"AIRBAG & SRS":"BOLSAS DE AIRE Y SRS","SPECIALISTS":"ESPECIALISTAS",
+"Airbags, seat belts, SRS modules, dashboards, seats, upholstery, headliners and complete automotive interior repair. Parts, programming, repair and installation.":"Bolsas de aire, cinturones, módulos SRS, tableros, asientos, tapicería, techos y reparación completa de interiores automotrices. Partes, programación, reparación e instalación.",
+"FIND YOUR VEHICLE":"BUSCA TU VEHÍCULO","VIEW SERVICES":"VER SERVICIOS",
+"Steering Wheel Airbag Fitment":"Compatibilidad de Bolsa de Aire del Volante",
+"Select your year, make and model. We are building our complete airbag and SRS inventory database.":"Selecciona el año, marca y modelo. Estamos desarrollando nuestra base completa de inventario de bolsas de aire y SRS.",
+"Vehicle Search":"Búsqueda de Vehículo","Search steering wheel airbag fitment from our notebook database. Identification notes and interchanges are shown when available.":"Busca compatibilidad de bolsas de aire del volante en nuestra base de datos. Se muestran notas de identificación e intercambios cuando están disponibles.",
+"SEARCH FITMENT":"BUSCAR COMPATIBILIDAD","What We Do":"Nuestros Servicios","Complete SRS safety-system and automotive interior services.":"Servicios completos del sistema de seguridad SRS y del interior automotriz.",
+"Airbags":"Bolsas de Aire","Seat Belts":"Cinturones","SRS Modules":"Módulos SRS","Dashboards":"Tableros","Seats & Upholstery":"Asientos y Tapicería","Headliners":"Techos","SRS Programming":"Programación SRS","Parts Sales":"Venta de Partes","Mobile & Shop Service":"Servicio Móvil y en Taller",
+"Driver, passenger, knee, seat and curtain airbag replacement and installation.":"Reemplazo e instalación de bolsas de aire de volante, pasajero, rodilla, asiento y cortina.",
+"Seat-belt replacement, repair and pretensioner services.":"Reemplazo y reparación de cinturones y servicio de pretensores.",
+"Airbag module crash-data reset, repair, programming and diagnostic services.":"Reinicio de datos de choque, reparación, programación y diagnóstico de módulos de bolsas de aire.",
+"Deployed, cracked and damaged dashboard replacement and restoration.":"Reemplazo y restauración de tableros desplegados, agrietados o dañados.",
+"Automotive seat repair, upholstery, leather and interior restoration.":"Reparación de asientos, tapicería, cuero y restauración de interiores.",
+"Sagging and damaged headliner replacement and interior trim repair.":"Reemplazo de techos caídos o dañados y reparación de molduras interiores.",
+"SRS diagnostics, programming, calibration, sensors and component services.":"Diagnóstico SRS, programación, calibración, sensores y servicio de componentes.",
+"Airbags, seat belts, SRS modules, sensors and related automotive safety components.":"Bolsas de aire, cinturones, módulos SRS, sensores y componentes relacionados de seguridad automotriz.",
+"Bring your vehicle to us or contact us about available mobile service.":"Trae tu vehículo a nuestro taller o contáctanos para servicio móvil disponible.",
+"Airbag & SRS Parts":"Partes de Bolsas de Aire y SRS","Find the safety-system components you need for your vehicle.":"Encuentra los componentes del sistema de seguridad que necesitas para tu vehículo.",
+"Driver Airbags":"Bolsas de Aire del Volante","Passenger Airbags":"Bolsas de Aire de Pasajero","Knee Airbags":"Bolsas de Aire de Rodilla","Curtain Airbags":"Bolsas de Aire de Cortina","Seat Airbags":"Bolsas de Aire de Asiento","SRS Sensors":"Sensores SRS","Seats":"Asientos","Interior Parts":"Partes de Interior","SRS Components":"Componentes SRS",
+"Why Safety Airbags?":"¿Por Qué Safety Airbags?","Family Owned & Operated":"Negocio Familiar","Specialized Service":"Servicio Especializado","Sales & Replacement":"Venta y Reemplazo","Local Service":"Servicio Local",
+"Need Airbags or SRS Service?":"¿Necesitas Bolsas de Aire o Servicio SRS?","Contact Safety Airbags for parts, installation, programming, seat-belt service, upholstery and automotive interior repair.":"Contacta a Safety Airbags para partes, instalación, programación, servicio de cinturones, tapicería y reparación de interiores automotrices.","CONTACT SAFETY AIRBAGS":"CONTACTAR SAFETY AIRBAGS","Family owned and operated since 1999.":"Negocio familiar desde 1999."
+};
+const textNodes=[];
+(function capture(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t&&staticTranslations[t])textNodes.push([n,t]);}})();
+function statusText(status){const es={"Needs year check":"verificar año","Needs variant check":"verificar variante","Needs model check":"verificar modelo","Needs interchange check":"verificar intercambio","Needs end year":"verificar año final"};return lang==="es"?(es[status]||status):status.replace(/^Needs\s+/i,"");}
+function statusLabel(status){return status==="Notebook"?(lang==="es"?"Coincidencia Encontrada":"Match Found"):(lang==="es"?"Verificación requerida: ":"Verification required: ")+statusText(status);}
+function renderCard(record,yearMatch){const years=(record.from&&record.to)?`${record.from}–${record.to}`:(record.from?`${record.from} ${lang==="es"?"en adelante":"and up"}`:(lang==="es"?"Año no confirmado":"Year not confirmed"));const confirmed=record.status==="Notebook"&&yearMatch;return `<div class="result-card"><h4>${escapeHtml(record.make)} ${escapeHtml(record.model)}</h4><p><strong>${lang==="es"?"Años registrados":"Recorded years"}:</strong> ${escapeHtml(years)}</p>${record.interchange?`<p><strong>${lang==="es"?"Intercambio / también compatible":"Interchange / also fits"}:</strong> ${escapeHtml(record.interchange)}</p>`:""}${record.notes?`<p><strong>${lang==="es"?"Notas de identificación":"Identification notes"}:</strong> ${escapeHtml(record.notes)}</p>`:""}<span class="result-status ${confirmed?"confirmed":"verify"}">${escapeHtml(statusLabel(record.status))}</span></div>`;}
+function searchVehicle(){const year=Number(yearSelect.value),make=makeSelect.value,model=modelSelect.value;if(!year||!make||!model){result.innerHTML=`<div class="result-message">${lang==="es"?"Selecciona año, marca y modelo.":"Please select a year, make and model."}</div>`;return;}const modelRecords=fitments.filter(r=>r.make===make&&matchesModel(r,model));const exact=modelRecords.filter(r=>r.from&&r.to&&year>=r.from&&year<=r.to);if(exact.length){result.innerHTML=`<div class="result-message"><strong>${escapeHtml(year+" "+make+" "+model)}</strong> — ${lang==="es"?`${exact.length} coincidencia${exact.length===1?"":"s"} encontrada${exact.length===1?"":"s"}.`:`${exact.length} matching fitment record${exact.length===1?"":"s"} found.`}</div>`+exact.map(r=>renderCard(r,true)).join("");return;}const unresolved=modelRecords.filter(r=>!r.from||!r.to);if(unresolved.length){result.innerHTML=`<div class="result-message"><strong>${escapeHtml(year+" "+make+" "+model)}</strong> — ${lang==="es"?"tenemos un registro para este modelo, pero el año o variante necesita verificación.":"we have a record for this model, but the year/variant still needs verification."}</div>`+unresolved.map(r=>renderCard(r,false)).join("");return;}result.innerHTML=`<div class="result-message"><strong>${lang==="es"?"No se encontró una coincidencia registrada":"No recorded fitment found"}</strong> ${lang==="es"?"para":"for"} ${escapeHtml(year+" "+make+" "+model)}. ${lang==="es"?"Esto no confirma incompatibilidad; verifica la parte antes de comprar o instalar.":"This does not confirm incompatibility; verify the part before purchase or installation."}</div>`;}
+function applyLanguage(next){lang=next;document.documentElement.lang=lang==="es"?"es":"en";textNodes.forEach(([n,en])=>n.nodeValue=n.nodeValue.replace(n.nodeValue.trim(),lang==="es"?staticTranslations[en]:en));document.getElementById("langEN").classList.toggle("active",lang==="en");document.getElementById("langES").classList.toggle("active",lang==="es");yearSelect.options[0].text=lang==="es"?"Selecciona Año":"Select Year";makeSelect.options[0].text=lang==="es"?"Selecciona Marca":"Select Make";if(!makeSelect.value){modelSelect.options[0].text=lang==="es"?"Elige Marca Primero":"Choose Make First"}else{modelSelect.options[0].text=lang==="es"?"Selecciona Modelo":"Select Model"}document.getElementById("searchButton").textContent=lang==="es"?"BUSCAR COMPATIBILIDAD":"SEARCH FITMENT";if(result.innerHTML)searchVehicle();localStorage.setItem("safetyAirbagsLang",lang);}
+document.getElementById("searchButton").addEventListener("click",searchVehicle);document.getElementById("langEN").onclick=()=>applyLanguage("en");document.getElementById("langES").onclick=()=>applyLanguage("es");applyLanguage(localStorage.getItem("safetyAirbagsLang")==="es"?"es":"en");
 </script>
 </body>
 </html>
